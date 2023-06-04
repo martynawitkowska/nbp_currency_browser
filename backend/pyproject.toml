@@ -14,6 +14,7 @@ pytest-django = "4.5.2"
 pytest-cov = "4.1.0"
 flake8 = "6.0.0"
 flake8-django = "1.3"
+black = {extras = ["d"], version = "^23.3.0"}
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
@@ -27,6 +28,27 @@ addopts = [
    "term-missing:skip-covered",
    "--cov-fail-under=80"
 ]
+
+[tool.black]
+line-length = 120
+target-version = ['py311']
+exclude = '''
+/(
+    | \.git/  # exclude a directory
+    | \.mypy_cache/  # exclude a directory
+    | \.pytest_cache/  # exclude a directory
+    | .*\.pyi?  # exclude generated files
+    | .*\.json  # exclude metadata files
+    | .*\.md  # exclude documentation
+    | .*\.toml  # exclude configuration files
+    | .*\.yml  # exclude configuration files
+    | .*\.yaml  # exclude configuration files
+    | .*\.txt  # exclude configuration files
+    | .*\.lock  # exclude configuration files
+    | .*\.sh  # exclude configuration files
+    | .*\.log  # exclude configuration files
+)/
+'''
 
 [build-system]
 requires = ["poetry-core"]
