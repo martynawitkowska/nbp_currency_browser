@@ -1,3 +1,4 @@
+import datetime
 from datetime import date, timedelta
 
 import pytest
@@ -45,3 +46,18 @@ def multiple_currency_names(db):
         CurrencyName(name="frank szwajcarski", code="CHF"),
     ]
     CurrencyName.objects.bulk_create(currency_names)
+
+
+@pytest.fixture
+def start_date():
+    return datetime.date(2023, 5, 23)
+
+
+@pytest.fixture
+def end_date():
+    return datetime.date(2023, 5, 24)
+
+
+@pytest.fixture
+def date_above_93_days():
+    return datetime.date(2023, 5, 24) - datetime.timedelta(days=95)
