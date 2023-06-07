@@ -1,3 +1,4 @@
+from django.db.models import OuterRef, Subquery
 from django.views.generic import FormView
 
 from . import forms, models
@@ -39,7 +40,8 @@ class CurrencyFormView(FormView):
         return self.render_to_response(context)
 
     def get_form(self, form_class=None):
-        currencies = models.CurrencyName.objects.all()
+        subquery = models.CurrencyName.objects.filter(code=OuterRef("code")).order_by("code")
+        currencies = models.CurrencyName.objects.filter(id=Subquery(subquery.values("id")[:1])).order_by("name")
         form = super().get_form(form_class)
 
         form.fields["currency"].choices = [(currency.code, currency.name.title()) for currency in currencies]
