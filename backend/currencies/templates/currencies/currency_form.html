@@ -15,6 +15,12 @@
 </form>
 
 <pre>
+    {% for item in data.values %}
+        {{ item }}
+    {% endfor %}
+</pre>
+
+<pre>
     {% for currency in currency_data %}
         {{ currency.exchange_rate }} - {{ currency.currency_name.name }} - {{ currency.currency_date.date }}
     {% endfor %}

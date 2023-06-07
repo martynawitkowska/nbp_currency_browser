@@ -13,10 +13,28 @@ class CurrencyFormView(FormView):
         end_date = form.cleaned_data.get("end_date")
         currencies = models.CurrencyName.objects.all()
 
+        dates = models.CurrencyDate.objects.filter(date__range=(start_date, end_date))
+
         currency_data = models.CurrencyValue.objects.filter(currency_date__date__range=(start_date, end_date))
+
+        data = {
+            "labels": [date.date.strftime("%Y-%m-%d") for date in dates],
+            "datasets": [
+                {
+                    "label": currency.code,
+                    "data": [
+                        float(value.exchange_rate)
+                        for value in currency_data
+                        if value.currency_name.code == currency.code
+                    ],
+                }
+                for currency in currencies
+            ],
+        }
 
         context = self.get_context_data()
         context.update({"currency_data": currency_data})
+        context.update({"data": data})
 
         return self.render_to_response(context)
 
