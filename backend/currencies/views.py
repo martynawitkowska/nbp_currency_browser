@@ -11,21 +11,21 @@ class CurrencyFormView(FormView):
     def form_valid(self, form):
         start_date = form.cleaned_data.get("start_date")
         end_date = form.cleaned_data.get("end_date")
-        currencies = models.CurrencyName.objects.all()
+        currencies = form.cleaned_data.get("currency")
 
         dates = models.CurrencyDate.objects.filter(date__range=(start_date, end_date))
 
-        currency_data = models.CurrencyValue.objects.filter(currency_date__date__range=(start_date, end_date))
+        currency_data = models.CurrencyValue.objects.filter(
+            currency_date__date__range=(start_date, end_date), currency_name__code__in=currencies
+        )
 
         data = {
             "labels": [date.date.strftime("%Y-%m-%d") for date in dates],
             "datasets": [
                 {
-                    "label": currency.code,
+                    "label": currency,
                     "data": [
-                        float(value.exchange_rate)
-                        for value in currency_data
-                        if value.currency_name.code == currency.code
+                        float(value.exchange_rate) for value in currency_data if value.currency_name.code == currency
                     ],
                 }
                 for currency in currencies
