@@ -14,5 +14,11 @@
     <button type="submit">Submit</button>
 </form>
 
+<pre>
+    {% for currency in currency_data %}
+        {{ currency.exchange_rate }} - {{ currency.currency_name.name }} - {{ currency.currency_date.date }}
+    {% endfor %}
+</pre>
+
 </body>
 </html>
