@@ -13,6 +13,9 @@ import os
 from pathlib import Path
 
 import dj_database_url
+from celery.schedules import crontab
+
+import config.tasks
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -135,3 +138,10 @@ AUTH_USER_MODEL = "users.CustomUser"
 
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
+
+CELERY_BEAT_SCHEDULE = {
+    "fetch_nbp_table_a_rates_for_today": {
+        "task": "config.tasks.fetch_nbp_currency_rates",
+        "schedule": crontab(minute="16", hour="12"),
+    },
+}

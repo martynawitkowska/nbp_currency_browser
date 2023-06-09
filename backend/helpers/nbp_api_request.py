@@ -1,7 +1,7 @@
 import datetime
 import json
 import time
-from urllib import request
+from urllib import request, error
 
 
 def get_currency_data_from_nbp_api(start_date, end_date):
@@ -29,3 +29,17 @@ def fetch_all_currency_data(start_date, end_date):
         time.sleep(1)
 
     return all_data
+
+
+def get_today_currency_data_from_nbp_api():
+    url = f"http://api.nbp.pl/api/exchangerates/tables/a/today/"
+
+    data = None
+
+    try:
+        with request.urlopen(url) as response:
+            data = json.loads(response.read().decode())
+    except error.HTTPError as e:
+        data = str(e)
+
+    return data
