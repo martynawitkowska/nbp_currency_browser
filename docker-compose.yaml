@@ -16,6 +16,46 @@ services:
       - postgres
     networks:
       - postgres_network
+      - redis_network
+
+  redis:
+    image: redis:alpine
+    networks:
+      - postgres_network
+
+  celery:
+    build:
+      context: ./backend
+      target: development
+    command: sh -c 'sleep 10 && celery -A config worker --loglevel=info'
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./envs/backend.env
+      - ./envs/postgres.env
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - postgres_network
+      - redis_network
+
+  celery_beat:
+    build:
+      context: ./backend
+      target: development
+    command: sh -c 'sleep 10 && celery -A config beat --loglevel=info'
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./envs/backend.env
+      - ./envs/postgres.env
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - postgres_network
+      - redis_network
 
   postgres:
     image: postgres:15.2
@@ -33,4 +73,6 @@ volumes:
 
 networks:
   postgres_network:
+    driver: bridge
+  redis_network:
     driver: bridge
