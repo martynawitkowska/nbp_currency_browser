@@ -117,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Warsaw"
 
 USE_I18N = True
 
@@ -128,6 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -142,6 +143,6 @@ CELERY_RESULT_BACKEND = "redis://redis:6379"
 CELERY_BEAT_SCHEDULE = {
     "fetch_nbp_table_a_rates_for_today": {
         "task": "config.tasks.fetch_nbp_currency_rates",
-        "schedule": crontab(minute="16", hour="12"),
+        "schedule": crontab(hour="12", minute="16"),
     },
 }

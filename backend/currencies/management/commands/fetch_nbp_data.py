@@ -23,9 +23,9 @@ class Command(BaseCommand):
 
         create_currency_objects_in_db(data)
 
-        created_data_count = CurrencyDate.objects.get(date=data["effectiveDate"]).currency_values.all().count()
+        created_data_count = CurrencyDate.objects.get(date=data[0]["effectiveDate"]).currency_values.all().count()
 
-        if created_data_count == len(data["rates"]):
+        if created_data_count == len(data[0]["rates"]):
             self.stdout.write(
                 self.style.SUCCESS(
                     f"Currency rates successfully fetched and saved to database. \nObjects count: {created_data_count}"
