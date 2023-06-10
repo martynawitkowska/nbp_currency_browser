@@ -37,7 +37,7 @@ def test_add_two_values_for_one_date_for_one_currency(currency_date, currency_na
             exchange_rate=Decimal("4.12"), currency_date=currency_date, currency_name=currency_name
         )
 
-    assert "UNIQUE constraint failed" in str(exc_info)
+    assert "duplicate key value violates unique constraint" in str(exc_info)
 
 
 def test_add_multiple_exchange_rate_at_once(currency_date, multiple_currency_names):

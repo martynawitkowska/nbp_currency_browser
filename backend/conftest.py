@@ -2,6 +2,7 @@ import datetime
 from datetime import date, timedelta
 
 import pytest
+from _decimal import Decimal
 
 from currencies.models import CurrencyName, CurrencyDate, CurrencyValue
 
@@ -47,6 +48,8 @@ def multiple_currency_names(db):
     ]
     CurrencyName.objects.bulk_create(currency_names)
 
+    return currency_names
+
 
 @pytest.fixture
 def start_date():
@@ -61,3 +64,13 @@ def end_date():
 @pytest.fixture
 def date_above_93_days():
     return datetime.date(2023, 5, 24) - datetime.timedelta(days=95)
+
+
+@pytest.fixture
+def currency_values(currency_date, multiple_currency_names):
+    for name in multiple_currency_names:
+        CurrencyValue.objects.create(exchange_rate=1.5, currency_name=name, currency_date=currency_date)
+
+    values = CurrencyValue.objects.all()
+
+    return values
