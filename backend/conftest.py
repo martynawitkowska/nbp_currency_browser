@@ -74,3 +74,20 @@ def currency_values(currency_date, multiple_currency_names):
     values = CurrencyValue.objects.all()
 
     return values
+
+
+@pytest.fixture
+def fake_nbp_api_data():
+    data = [
+        {
+            "table": "A",
+            "no": "110/A/NBP/2023",
+            "effectiveDate": "2023-06-09",
+            "rates": [
+                {"currency": "dolar amerykański", "code": "USD", "mid": 4.1545},
+                {"currency": "euro", "code": "EUR", "mid": 4.4717},
+                {"currency": "funt szterling", "code": "GBP", "mid": 5.2106},
+            ],
+        }
+    ]
+    return data
