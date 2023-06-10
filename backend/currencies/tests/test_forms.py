@@ -18,14 +18,6 @@ def test_currency_form_valid_data(currency_choices):
         }
     )
 
-    print("*" * 20)
-    print("*" * 20)
-    print("*" * 20)
-    print(timezone.now().date())
-    print("*" * 20)
-    print("*" * 20)
-    print("*" * 20)
-
     form.fields["currency"].choices = currency_choices
 
     assert form.is_valid()
