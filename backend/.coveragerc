@@ -4,6 +4,7 @@ omit =
     */migrations/*.py,
     *settings*.py,
     */tests/*.py,
+    install-poetry.py,
     *urls.py,
     *wsgi.py,
     *asgi.py,
