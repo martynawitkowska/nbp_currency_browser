@@ -1,7 +1,7 @@
 FROM python:3.11 AS development
 
-RUN --mount=type=secret,id=_env,dst=postgres.env cat postgres.env
-RUN --mount=type=secret,id=_env,dst=backend.env cat backend.env
+RUN --mount=type=secret,id=_env,dst=postgres.env && cat postgres.env
+RUN --mount=type=secret,id=_env,dst=backend.env && cat backend.env
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONBUFFERED 1
